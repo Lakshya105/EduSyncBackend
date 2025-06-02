@@ -77,7 +77,7 @@ namespace EdySyncProject.Services
                                     Start exploring your courses today!
                                 </p>
                                 <p style='margin: 0 0 24px 0;'>
-                                    <a href='https://yourplatform.com/login'
+                                    <a href='https://edusync-g2f8btagfjang3gb.centralindia-01.azurewebsites.net'
                                        style='background: #337ab7; color: #fff; text-decoration: none; padding: 12px 30px; border-radius: 5px; font-size: 16px; display: inline-block;'>
                                         Login Now
                                     </a>
