@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\EdySyncProject",
+    "\\EdySyncProject\\Controllers",
+    "\\EdySyncProject\\Data",
+    "\\EdySyncProject\\DTO",
+    "\\EdySyncProject\\Migrations",
+    "\\EdySyncProject\\Models",
+    "\\EdySyncProject\\Properties",
+    "\\EdySyncProject\\Services"
+  ],
+  "SelectedNode": "\\EdySyncProject\\Controllers\\AuthController.cs",
+  "PreviewInSolutionExplorer": false
+}
