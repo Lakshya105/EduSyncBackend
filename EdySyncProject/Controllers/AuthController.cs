@@ -90,7 +90,7 @@ public class AuthController : ControllerBase
         _context.PasswordResetTokens.Add(resetToken);
         await _context.SaveChangesAsync();
 
-        var resetLink = $"http://localhost:3000/reset-password?token={Uri.EscapeDataString(token)}";
+        var resetLink = $"https://edusync-g2f8btagfjang3gb.centralindia-01.azurewebsites.net/reset-password?token={Uri.EscapeDataString(token)}";
         await _emailService.SendPasswordResetEmailAsync(user.Email, user.Name, resetLink);
 
         return Ok();
