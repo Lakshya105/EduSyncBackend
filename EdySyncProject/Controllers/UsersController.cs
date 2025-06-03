@@ -66,14 +66,25 @@ public class UsersController : ControllerBase
 
     // DELETE: api/Users/{id}
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Instructor")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var user = await _context.Users.FindAsync(id);
-        if (user == null) return NotFound();
-
+        var user = await _context.Users
+            .Include(u => u.Courses)      
+            .Include(u => u.Results)      
+            .FirstOrDefaultAsync(u => u.UserId == id);
+    
+        if (user == null)
+            return NotFound();
+    
+        if (user.Courses?.Any() == true)
+            return BadRequest("User cannot be deleted because they have linked courses.");
+    
+        if (user.Results?.Any() == true)
+            return BadRequest("User cannot be deleted because they have submitted results.");
+    
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
+    
         return NoContent();
     }
 }
