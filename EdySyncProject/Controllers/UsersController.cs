@@ -66,25 +66,26 @@ public class UsersController : ControllerBase
 
     // DELETE: api/Users/{id}
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteUser(Guid id)
+    [Authorize(Roles = "Instructor")] // or Admin, adjust as needed
+    public async Task<IActionResult> DeleteStudent(Guid id)
     {
-        var user = await _context.Users
-            .Include(u => u.Courses)      
-            .Include(u => u.Results)      
-            .FirstOrDefaultAsync(u => u.UserId == id);
-    
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id && u.Role == "Student");
         if (user == null)
-            return NotFound();
+            return NotFound("User not found or not a student.");
+            
+        var enrollments = await _context.Enrollments.Where(e => e.UserId == id).ToListAsync();
+        _context.Enrollments.RemoveRange(enrollments);
     
-        if (user.Courses?.Any() == true)
-            return BadRequest("User cannot be deleted because they have linked courses.");
+        var results = await _context.Results.Where(r => r.UserId == id).ToListAsync();
+        _context.Results.RemoveRange(results);
     
-        if (user.Results?.Any() == true)
-            return BadRequest("User cannot be deleted because they have submitted results.");
-    
+        var tokens = await _context.PasswordResetTokens.Where(t => t.UserId == id).ToListAsync();
+        _context.PasswordResetTokens.RemoveRange(tokens);
+
         _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
     
+        await _context.SaveChangesAsync();
         return NoContent();
     }
+
 }
